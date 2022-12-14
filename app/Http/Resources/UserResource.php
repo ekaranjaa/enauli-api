@@ -21,8 +21,10 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phone_number' => $this->phone_number,
             'email_verified' => (bool)$this->email_verified_at,
+            'deactivated' => (bool)$this->deactivated_at,
             'time_stamps' => [
                 'email_verified_at' => $this->email_verified_at,
+                'deactivated_at' => $this->deactivated_at,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ]
