@@ -1,7 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChargesController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\SaccosController;
+use App\Http\Controllers\StationsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VehiclesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +43,19 @@ Route::middleware(['auth:sanctum', 'throttle:6,1'])->prefix('email')->group(func
         ->middleware('signed')->name('verification.verify');
     Route::post('resend-verification-notification', [EmailVerificationController::class, 'resend'])
         ->name('verification.resend');
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('users', UsersController::class);
+    Route::post('users/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
+
+    Route::resource('saccos', SaccosController::class);
+    Route::post('saccos/deactivate', [SaccosController::class, 'deactivate'])->name('saccos.deactivate');
+
+    Route::resource('stations', StationsController::class);
+    Route::post('stations/deactivate', [StationsController::class, 'deactivate'])->name('stations.deactivate');
+
+    Route::resource('vehicles', VehiclesController::class);
+
+    Route::resource('charges', ChargesController::class);
 });

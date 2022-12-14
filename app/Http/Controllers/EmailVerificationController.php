@@ -28,9 +28,6 @@ class EmailVerificationController extends Controller
         return response()->json(['message' => 'Email verification complete']);
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function resend(Request $request): JsonResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
