@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ChargeResource;
 use App\Http\Resources\SaccoResource;
 use App\Http\Resources\StationResource;
 use App\Http\Resources\UserResource;
@@ -29,6 +30,11 @@ class SaccosController extends Controller
     public function getVehicles(Sacco $sacco)
     {
         return VehicleResource::collection($sacco->vehicles);
+    }
+
+    public function getCharges(Sacco $sacco)
+    {
+        return ChargeResource::collection($sacco->charges);
     }
 
     public function store(Request $request)

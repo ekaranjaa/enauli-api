@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('{sacco}/users', [SaccosController::class, 'getUsers'])->name('users');
         Route::get('{sacco}/stations', [SaccosController::class, 'getStations'])->name('stations');
         Route::get('{sacco}/vehicles', [SaccosController::class, 'getVehicles'])->name('vehicles');
+        Route::get('{sacco}/charges', [SaccosController::class, 'getCharges'])->name('charges');
     });
 
     // Stations
