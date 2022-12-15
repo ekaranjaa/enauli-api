@@ -34,9 +34,9 @@ class SaccosController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
-        Sacco::create($validated);
+        $sacco = Sacco::create($validated);
 
-        return response()->json(['message' => 'Sacco stored.']);
+        return response()->json(['message' => 'Sacco stored.', 'resource' => new SaccoResource($sacco)]);
     }
 
     public function show(Sacco $sacco)
@@ -49,13 +49,13 @@ class SaccosController extends Controller
         $validated = $this->validateRequest($request);
         $sacco->update($validated);
 
-        return response()->json(['message' => 'Sacco stored.']);
+        return response()->json(['message' => 'Sacco stored.', 'resource' => new SaccoResource($sacco->refresh())]);
     }
 
     public function deactivate(Sacco $sacco)
     {
         $sacco->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Sacco deactivated.']);
+        return response()->json(['message' => 'Sacco deactivated.', 'resource' => new SaccoResource($sacco)]);
     }
 
     public function validateRequest(Request $request): array

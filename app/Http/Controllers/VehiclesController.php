@@ -22,9 +22,9 @@ class VehiclesController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
-        Vehicle::create($validated);
+        $vehicle = Vehicle::create($validated);
 
-        return response()->json(['message' => 'Vehicle stored.']);
+        return response()->json(['message' => 'Vehicle stored.', 'resource' => new VehicleResource($vehicle)]);
     }
 
     public function show(Vehicle $vehicle)
@@ -37,13 +37,13 @@ class VehiclesController extends Controller
         $validated = $this->validateRequest($request);
         $vehicle->update($validated);
 
-        return response()->json(['message' => 'Vehicle stored.']);
+        return response()->json(['message' => 'Vehicle stored.', 'resource' => new VehicleResource($vehicle->refresh())]);
     }
 
     public function deactivate(Vehicle $vehicle)
     {
         $vehicle->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Vehicle deactivated']);
+        return response()->json(['message' => 'Vehicle deactivated', 'resource' => new VehicleResource($vehicle)]);
     }
 
     public function validateRequest(Request $request): array

@@ -22,9 +22,9 @@ class StationsController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
-        Station::create($validated);
+        $station = Station::create($validated);
 
-        return response()->json(['message' => 'Station stored.']);
+        return response()->json(['message' => 'Station stored.', 'resource' => new StationResource($station)]);
     }
 
     public function show(Station $station)
@@ -37,13 +37,13 @@ class StationsController extends Controller
         $validated = $this->validateRequest($request);
         $station->update($validated);
 
-        return response()->json(['message' => 'Station stored.']);
+        return response()->json(['message' => 'Station stored.', 'resource' => new StationResource($station->refresh())]);
     }
 
     public function deactivate(Station $station)
     {
         $station->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Station deactivated.']);
+        return response()->json(['message' => 'Station deactivated.', 'resource' => new StationResource($station)]);
     }
 
     public function validateRequest(Request $request): array

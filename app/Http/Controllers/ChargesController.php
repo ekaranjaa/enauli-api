@@ -22,9 +22,9 @@ class ChargesController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
-        Charge::create($validated);
+        $charge = Charge::create($validated);
 
-        return response()->json(['message' => 'Charge stored.']);
+        return response()->json(['message' => 'Charge stored.', 'resource' => new ChargeResource($charge)]);
     }
 
     public function show(Charge $charge)
@@ -37,7 +37,7 @@ class ChargesController extends Controller
         $validated = $this->validateRequest($request);
         $charge->update($validated);
 
-        return response()->json(['message' => 'Charge updated.']);
+        return response()->json(['message' => 'Charge updated.', 'resource' => new ChargeResource($charge->refresh())]);
     }
 
     public function validateRequest(Request $request): array

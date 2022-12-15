@@ -36,13 +36,13 @@ class UsersController extends Controller
         $validated = $this->validateRequest($request);
         $tempPassword = Str::random(8);
 
-        User::create([
+        $user = User::create([
             ...$validated,
             'temp_password' => $tempPassword,
             'password' => Hash::make($tempPassword)
         ]);
 
-        return response()->json(['message' => 'User created.']);
+        return response()->json(['message' => 'User created.', 'resource' => new UserResource($user)]);
     }
 
     public function show(User $user)
@@ -55,13 +55,13 @@ class UsersController extends Controller
         $validated = $this->validateRequest($request);
         $user->update([...$validated]);
 
-        return response()->json(['message' => 'User updated.']);
+        return response()->json(['message' => 'User updated.', 'resource' => new UserResource($user->refresh())]);
     }
 
     public function deactivate(User $user)
     {
         $user->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'User deactivated.']);
+        return response()->json(['message' => 'User deactivated.', 'resource' => new UserResource($user)]);
     }
 
     public function validateRequest(Request $request)
