@@ -40,12 +40,6 @@ class VehiclesController extends Controller
         return response()->json(['message' => 'Vehicle stored.', 'resource' => new VehicleResource($vehicle->refresh())]);
     }
 
-    public function deactivate(Vehicle $vehicle)
-    {
-        $vehicle->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Vehicle deactivated', 'resource' => new VehicleResource($vehicle)]);
-    }
-
     public function validateRequest(Request $request): array
     {
         return $request->validate([

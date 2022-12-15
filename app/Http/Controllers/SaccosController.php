@@ -55,7 +55,7 @@ class SaccosController extends Controller
     public function deactivate(Sacco $sacco)
     {
         $sacco->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Sacco deactivated.', 'resource' => new SaccoResource($sacco)]);
+        return response()->json(['message' => 'Sacco deactivated.', 'resource' => new SaccoResource($sacco->refresh())]);
     }
 
     public function validateRequest(Request $request): array

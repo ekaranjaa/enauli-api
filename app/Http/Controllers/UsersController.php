@@ -61,7 +61,7 @@ class UsersController extends Controller
     public function deactivate(User $user)
     {
         $user->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'User deactivated.', 'resource' => new UserResource($user)]);
+        return response()->json(['message' => 'User deactivated.', 'resource' => new UserResource($user->refresh())]);
     }
 
     public function validateRequest(Request $request)

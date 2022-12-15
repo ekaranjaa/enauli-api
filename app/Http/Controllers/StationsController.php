@@ -43,7 +43,7 @@ class StationsController extends Controller
     public function deactivate(Station $station)
     {
         $station->update(['deactivated_at' => now()]);
-        return response()->json(['message' => 'Station deactivated.', 'resource' => new StationResource($station)]);
+        return response()->json(['message' => 'Station deactivated.', 'resource' => new StationResource($station->refresh())]);
     }
 
     public function validateRequest(Request $request): array

@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Users
     Route::resource('users', UsersController::class);
     Route::prefix('users')->name('users.')->group(function () {
-        Route::post('deactivate', [UsersController::class, 'deactivate'])->name('deactivate');
+        Route::post('{user}/deactivate', [UsersController::class, 'deactivate'])->name('deactivate');
         Route::get('{user}/saccos', [UsersController::class, 'getSaccos'])->name('saccos');
         Route::get('{user}/vehicles', [UsersController::class, 'getVehicles'])->name('vehicles');
     });
@@ -57,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Sacco
     Route::resource('saccos', SaccosController::class);
     Route::prefix('saccos')->name('saccos.')->group(function () {
-        Route::post('deactivate', [SaccosController::class, 'deactivate'])->name('deactivate');
+        Route::post('{sacco}/deactivate', [SaccosController::class, 'deactivate'])->name('deactivate');
         Route::get('{sacco}/users', [SaccosController::class, 'getUsers'])->name('users');
         Route::get('{sacco}/stations', [SaccosController::class, 'getStations'])->name('stations');
         Route::get('{sacco}/vehicles', [SaccosController::class, 'getVehicles'])->name('vehicles');
@@ -66,7 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Stations
     Route::resource('stations', StationsController::class);
     Route::prefix('stations')->name('stations.')->group(function () {
-        Route::post('deactivate', [StationsController::class, 'deactivate'])->name('deactivate');
+        Route::post('{station}/deactivate', [StationsController::class, 'deactivate'])->name('deactivate');
         Route::get('{station}/vehicles', [StationsController::class, 'getVehicles'])->name('vehicles');
     });
 
