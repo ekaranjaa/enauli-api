@@ -32,13 +32,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmail());
     }
 
-    public function userSaccos(): HasMany
+    public function ownedSaccos(): HasMany
     {
-        return $this->hasMany(Sacco::class, 'owner_id');
+        return $this->hasMany(Sacco::class, 'owner_id', 'id');
     }
 
     public function saccos(): BelongsToMany
     {
         return $this->belongsToMany(Sacco::class);
+    }
+
+    public function vehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(Vehicle::class);
     }
 }

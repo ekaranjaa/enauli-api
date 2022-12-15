@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Station;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class VehiclesTableSeeder extends Seeder
 {
@@ -14,10 +17,15 @@ class VehiclesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Station::all()->each(function (Station $station) {
-            Vehicle::factory()->count(10)->create(['station_id' => $station->id]);
+        $users = User::whereHas('roles', function (Builder $query) {
+            $query->where('id', 4);
+        })->get();
+
+        Station::all()->each(function (Station $station) use ($users) {
+            Vehicle::factory()->count(10)->hasAttached($users->random(2))
+                ->create(['station_id' => $station->id]);
         });
     }
 }
