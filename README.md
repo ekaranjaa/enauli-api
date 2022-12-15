@@ -1,66 +1,661 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Nauli API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Authentication
 
-## About Laravel
+Each user has a role that in their sacco apart from the `System Admin` who has access to all the resources. Roles available are
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- System Admin - Has access to all resources
+- Owner - Can own and administrate an sacco
+- Official - Can administrate a sacco
+- Operator - Can operate a vehicle
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Credentials
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Admin
 
-## Learning Laravel
+```bash
+Phone: 07123456789
+Password: password
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Owner
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+Phone: 0787654321
+Password: password
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Register
 
-## Laravel Sponsors
+Endpoint
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+POST - http://enauli.loc/api/auth/register
+```
 
-### Premium Partners
+Request body
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```json5
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone_number": "0712345678",
+    "password": "password",
+    "password_confirmation": "password"
+}
+```
 
-## Contributing
+Response body
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```json5
+{
+    "message": "Account Created."
+}
+```
 
-## Code of Conduct
+### Login
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Endpoint
 
-## Security Vulnerabilities
+```bash
+POST - http://enauli.loc/api/auth/login
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Request body
 
-## License
+```json5
+{
+    "phone_number": "0712345678",
+    "password": "password"
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Response body
+
+```
+1|4WiUKPBazHGGE4CMGVkTWGtekbfRXBrc9TWj9uTJ
+```
+
+### Change Password
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/auth/change-password
+```
+
+Request body
+
+```json5
+{
+    "current_password": "password",
+    "password": "123456",
+    "password_confirmation": "123456"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Password changed."
+}
+```
+
+### Forgot Password
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/auth/forgot-password
+```
+
+Request body
+
+```json5
+{
+    "email": "john@example.com"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "We have emailed your password reset link!"
+}
+```
+
+### Reset Password
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/auth/reset-password
+```
+
+Request body
+
+```json5
+{
+    "token": "uhwgheghwohegkkjbfbfaflishgsdhshgfoisduhsdiohgsiodh",
+    "email": "john@example.com",
+    "password": "123456"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Your password has been reset!"
+}
+```
+
+## Users
+
+### Create & Update
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/users
+PUT - http://enauli.loc/api/users/{id}
+```
+
+Request body
+
+```json5
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone_number": "0712345678"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "User created.",
+    "resource": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone_number": "0712345678",
+        "temp_password": "sdhbnarten", // Random string hashed as password
+        'email_verified': false,
+        'deactivated': false,
+        "time_stamps": {
+            "email_verified_at": null,
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### List & Show
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/users
+```
+
+Response body
+
+```json5
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone_number": "0712345678",
+        "temp_password": null,
+        'email_verified': true,
+        'deactivated': false,
+        "time_stamps": {
+            "email_verified_at": "2022-12-15 10:13:16",
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+]
+```
+
+### Deactivate
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/users/{id}/deactivate
+```
+
+Response body
+
+```json5
+{
+    "message": "User deactivated.",
+    "resource": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone_number": "0712345678",
+        "temp_password": null,
+        'email_verified': true,
+        'deactivated': true,
+        "time_stamps": {
+            "email_verified_at": "2022-12-15 10:13:16",
+            "deactivated_at": "2022-12-15 10:13:16",
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+## Sacco
+
+### Create & Update
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/saccos
+PUT - http://enauli.loc/api/saccos/{id}
+```
+
+Request body
+
+```json5
+{
+    "owner_id": 2,
+    "name": "Test Sacco"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Sacco created.",
+    "resource": {
+        "id": 1,
+        "name": "Test Sacco",
+        "email": "john@example.com",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### List & Show
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/saccos
+```
+
+Response body
+
+```json5
+[
+    {
+        "id": 1,
+        "name": "Test Sacco",
+        "email": "john@example.com",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+]
+```
+
+### Deactivate
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/saccos/{id}/deactivate
+```
+
+Response body
+
+```json5
+{
+    "message": "User deactivated.",
+    "resource": {
+        "id": 1,
+        "name": "Test Sacco",
+        "email": "john@example.com",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### Sacco Users
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/saccos/{id}/users
+```
+
+Response body
+
+```
+Same as vehicles list response
+```
+
+### Sacco Stations
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/saccos/{id}/stations
+```
+
+Response body
+
+```
+Same as stations list response
+```
+
+### Sacco Vehicles
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/saccos/{id}/vehicles
+```
+
+Response body
+
+```
+Same as vehicles list response
+```
+
+### Sacco Charges
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/saccos/{id}/charges
+```
+
+Response body
+
+```
+Same as charges list response
+```
+
+## Stations
+
+### Create & Update
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/stations
+PUT - http://enauli.loc/api/stations/{id}
+```
+
+Request body
+
+```json5
+{
+    "sacco_id": 2,
+    "name": "Test Station",
+    "location": "Nairobi"
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Sacco created.",
+    "resource": {
+        "id": 1,
+        "name": "Test Sacco",
+        "location": "Nairobi",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### List & Show
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/stations
+```
+
+Response body
+
+```json5
+[
+    {
+        "id": 1,
+        "name": "Test Sacco",
+        "location": "Nairobi",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+]
+```
+
+### Deactivate
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/stations/{id}/deactivate
+```
+
+Response body
+
+```json5
+{
+    "message": "User deactivated.",
+    "resource": {
+        "id": 1,
+        "name": "Test Sacco",
+        "location": "Nairobi",
+        'deactivated': false,
+        "time_stamps": {
+            "deactivated_at": null,
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### Station Vehicles
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/stations/{id}/vehicles
+```
+
+Response body
+
+```
+Same as vehicles list response
+```
+
+## Vehicles
+
+### Create & Update
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/vehicles
+PUT - http://enauli.loc/api/vehicles/{id}
+```
+
+Request body
+
+```json5
+{
+    "station_id": 2,
+    "name": "Modern Coach",
+    "model_name": "Mercedes",
+    "model_year": 2011,
+    "capacity": 20
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Sacco created.",
+    "resource": {
+        "id": 1,
+        "name": "Modern Coach",
+        "capacity": 20,
+        "model": {
+            "name": "Mercedes",
+            "year": 2011,
+        },
+        "time_stamps": {
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### List & Show
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/vehicles
+```
+
+Response body
+
+```json5
+[
+    {
+        "id": 1,
+        "name": "Modern Coach",
+        "capacity": 20,
+        "model": {
+            "name": "Mercedes",
+            "year": 2011,
+        },
+        "time_stamps": {
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+]
+```
+
+### Station Operators
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/vehicles/{id}/operators
+```
+
+Response body
+
+```
+Same as users list response
+```
+
+## Charges
+
+### Create & Update
+
+Endpoint
+
+```bash
+POST - http://enauli.loc/api/charges
+PUT - http://enauli.loc/api/charges/{id}
+```
+
+Request body
+
+```json5
+{
+    "sacco_id": 2,
+    "label": "Maintenance",
+    "cost": 8000
+}
+```
+
+Response body
+
+```json5
+{
+    "message": "Sacco created.",
+    "resource": {
+        "id": 1,
+        "label": "Maintenance",
+        "cost": 8000,
+        "time_stamps": {
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+}
+```
+
+### List & Show
+
+Endpoint
+
+```bash
+GET - http://enauli.loc/api/charges
+```
+
+Response body
+
+```json5
+[
+    {
+        "id": 1,
+        "label": "Maintenance",
+        "cost": 8000,
+        "time_stamps": {
+            "created_at": "2022-12-15 10:13:16",
+            "updated_at": "2022-12-15 10:13:16"
+        }
+    }
+]
+```
