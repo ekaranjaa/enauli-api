@@ -15,7 +15,7 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = collect(['Admin', 'Official', 'Operators']);
+        $roles = collect(['System Admin', 'Owner', 'Official', 'Operators']);
 
         $roles->each(function (string $role) {
             Role::create(['name' => $role]);

@@ -14,9 +14,9 @@ class ChargesController extends Controller
      * @param Sacco $sacco
      * @return AnonymousResourceCollection
      */
-    public function index(Sacco $sacco): AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        return ChargeResource::collection($sacco->charges);
+        return ChargeResource::collection(Charge::all());
     }
 
     public function store(Request $request)

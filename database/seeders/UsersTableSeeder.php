@@ -17,24 +17,30 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = Role::whereNotIn('id', [1])->get();
+        $roles = Role::whereNotIn('id', [1, 2])->get();
 
-        $saccoAdmin = User::factory()->create([
+        $sysAdmin = User::factory()->create([
             'name' => 'Sacco Admin',
             'email' => 'admin@example.com',
             'phone_number' => '0712345678'
-        ])->assignRole('Admin');
+        ])->assignRole('System Admin');
 
-        $saccos = Sacco::factory()->count(10)->create(['owner_id' => $saccoAdmin->id]);
+        $saccoOwner = User::factory()->create([
+            'name' => 'Sacco Owner',
+            'email' => 'owner@example.com',
+            'phone_number' => '0787654321'
+        ])->assignRole('Owner');
 
-        $saccos->each(function (Sacco $sacco) use ($roles, $saccoAdmin) {
+        $saccos = Sacco::factory()->count(10)->create(['owner_id' => $saccoOwner->id]);
+
+        $saccos->each(function (Sacco $sacco) use ($roles, $saccoOwner) {
             User::factory()->count(10)->create()->each(function (User $user) use ($sacco, $roles) {
                 $randomRole = $roles->random();
                 $user->assignRole($randomRole->name);
                 $user->saccos()->attach($sacco, ['role_id' => $randomRole->id]);
             });
 
-            $saccoAdmin->saccos()->attach($sacco, ['role_id' => 1]);
+            $saccoOwner->saccos()->attach($sacco, ['role_id' => 2]);
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StationResource;
+use App\Http\Resources\VehicleResource;
 use App\Models\Station;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,11 @@ class StationsController extends Controller
     public function index()
     {
         return StationResource::collection(Station::all());
+    }
+
+    public function getVehicles(Station $station)
+    {
+        return VehicleResource::collection($station->vehicles);
     }
 
     public function store(Request $request)

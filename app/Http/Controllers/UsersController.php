@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SaccoResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\VehicleResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -17,6 +19,16 @@ class UsersController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return UserResource::collection(User::all());
+    }
+
+    public function getSaccos(User $user)
+    {
+        return SaccoResource::collection($user->saccos);
+    }
+
+    public function getVehicles(User $user)
+    {
+        return VehicleResource::collection($user->vehicles);
     }
 
     public function store(Request $request)

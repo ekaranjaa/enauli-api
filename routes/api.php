@@ -46,16 +46,36 @@ Route::middleware(['auth:sanctum', 'throttle:6,1'])->prefix('email')->group(func
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    // Users
     Route::resource('users', UsersController::class);
-    Route::post('users/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::post('deactivate', [UsersController::class, 'deactivate'])->name('deactivate');
+        Route::get('{user}/saccos', [UsersController::class, 'getSaccos'])->name('saccos');
+        Route::get('{user}/vehicles', [UsersController::class, 'getVehicles'])->name('vehicles');
+    });
 
+    // Sacco
     Route::resource('saccos', SaccosController::class);
-    Route::post('saccos/deactivate', [SaccosController::class, 'deactivate'])->name('saccos.deactivate');
+    Route::prefix('saccos')->name('saccos.')->group(function () {
+        Route::post('deactivate', [SaccosController::class, 'deactivate'])->name('deactivate');
+        Route::get('{sacco}/users', [SaccosController::class, 'getUsers'])->name('users');
+        Route::get('{sacco}/stations', [SaccosController::class, 'getStations'])->name('stations');
+        Route::get('{sacco}/vehicles', [SaccosController::class, 'getVehicles'])->name('vehicles');
+    });
 
+    // Stations
     Route::resource('stations', StationsController::class);
-    Route::post('stations/deactivate', [StationsController::class, 'deactivate'])->name('stations.deactivate');
+    Route::prefix('stations')->name('stations.')->group(function () {
+        Route::post('deactivate', [StationsController::class, 'deactivate'])->name('deactivate');
+        Route::get('{station}/vehicles', [StationsController::class, 'getVehicles'])->name('vehicles');
+    });
 
+    // Vehicles
     Route::resource('vehicles', VehiclesController::class);
+    Route::prefix('vehicles')->name('vehicles.')->group(function () {
+        Route::get('{vehicle}/operators', [VehiclesController::class, 'getOperators'])->name('operators');
+    });
 
+    // Charges
     Route::resource('charges', ChargesController::class);
 });

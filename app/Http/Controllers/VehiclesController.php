@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -11,6 +12,11 @@ class VehiclesController extends Controller
     public function index()
     {
         return VehicleResource::collection(Vehicle::all());
+    }
+
+    public function getOperators(Vehicle $vehicle)
+    {
+        return UserResource::collection($vehicle->operators);
     }
 
     public function store(Request $request)
