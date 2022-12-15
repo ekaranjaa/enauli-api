@@ -1,5 +1,10 @@
 # E-Nauli API
 
+## Setup
+[Laravel](https://laravel.com/docs/9.x/installation)
+
+[Laravel Mail & MailHog](https://laravel.com/docs/9.x/mail)
+
 ## Authentication
 
 Each user has a role that in their sacco apart from the `System Admin` who has access to all the resources. Roles available are
