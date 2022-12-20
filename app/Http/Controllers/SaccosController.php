@@ -14,7 +14,7 @@ class SaccosController extends Controller
 {
     public function index()
     {
-        return SaccoResource::collection(Sacco::all());
+        return SaccoResource::collection(Sacco::latest()->paginate(10));
     }
 
     public function getUsers(Sacco $sacco)

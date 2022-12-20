@@ -11,7 +11,7 @@ class VehiclesController extends Controller
 {
     public function index()
     {
-        return VehicleResource::collection(Vehicle::all());
+        return VehicleResource::collection(Vehicle::latest()->paginate(10));
     }
 
     public function getOperators(Vehicle $vehicle)

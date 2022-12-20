@@ -11,7 +11,7 @@ class StationsController extends Controller
 {
     public function index()
     {
-        return StationResource::collection(Station::all());
+        return StationResource::collection(Station::latest()->paginate(10));
     }
 
     public function getVehicles(Station $station)

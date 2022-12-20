@@ -16,7 +16,7 @@ class ChargesController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return ChargeResource::collection(Charge::all());
+        return ChargeResource::collection(Charge::latest()->paginate(10));
     }
 
     public function store(Request $request)

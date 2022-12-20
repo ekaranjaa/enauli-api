@@ -18,7 +18,7 @@ class UsersController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::latest()->paginate(10));
     }
 
     public function getSaccos(User $user)
