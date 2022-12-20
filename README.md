@@ -207,6 +207,7 @@ Endpoint
 
 ```bash
 GET - http://enauli.loc/api/users
+GET - http://enauli.loc/api/users/{id}
 ```
 
 Response body
@@ -307,6 +308,7 @@ Endpoint
 
 ```bash
 GET - http://enauli.loc/api/saccos
+GET - http://enauli.loc/api/saccos/{id}
 ```
 
 Response body
@@ -456,6 +458,7 @@ Endpoint
 
 ```bash
 GET - http://enauli.loc/api/stations
+GET - http://enauli.loc/api/stations/{id}
 ```
 
 Response body
@@ -567,6 +570,7 @@ Endpoint
 
 ```bash
 GET - http://enauli.loc/api/vehicles
+GET - http://enauli.loc/api/vehicles/{id}
 ```
 
 Response body
@@ -647,6 +651,7 @@ Endpoint
 
 ```bash
 GET - http://enauli.loc/api/charges
+GET - http://enauli.loc/api/charges/{id}
 ```
 
 Response body
